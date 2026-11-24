@@ -34,7 +34,7 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        // 1. Validasi data dari form
+        // 1. Validasi data dari form (dengan pesan error berbahasa Indonesia)
         $validated = $request->validate([
             'kode_buku' => 'required|unique:books',
             'judul'     => 'required|max:255',
@@ -42,6 +42,15 @@ class BookController extends Controller
             'penerbit'  => 'nullable|max:255',
             'tahun'     => 'nullable|digits:4',
             'stok'      => 'required|integer|min:0',
+        ], [
+            'kode_buku.required' => 'Kode buku wajib diisi.',
+            'kode_buku.unique'   => 'Kode buku sudah dipakai.',
+            'judul.required'     => 'Judul wajib diisi.',
+            'pengarang.required' => 'Pengarang wajib diisi.',
+            'tahun.digits'       => 'Tahun harus berupa 4 digit angka.',
+            'stok.required'      => 'Stok wajib diisi.',
+            'stok.integer'       => 'Stok harus berupa angka bulat.',
+            'stok.min'           => 'Stok tidak boleh bernilai negatif.',
         ]);
 
         // 2. Simpan sebagai baris baru di tabel books
